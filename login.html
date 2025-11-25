@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAST EATS - Welcome</title>
+    <style>
+        /* ------------------------------------- */
+        /* BASE & SHARED STYLES */
+        /* ------------------------------------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f0f0f0;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #920000;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            color: #ffefad;
+            font-size: 2em;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            flex-grow: 1;
+            padding: 50px 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* For background overlay */
+        }
+        footer {
+            background-color: #333;
+            color: #ccc;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+        }
+        a {
+            color: #e3c457;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: white;
+        }
+
+        /* ------------------------------------- */
+        /* INDEX.HTML Specific Styles */
+        /* ------------------------------------- */
+        main#index-main { /* Specific ID for main on index page */
+            background: url('https://static01.nyt.com/images/2024/04/10/multimedia/10best-restaurants-chicago13-hpqj/08best-restaurants-chicago13-hpqj-videoSixteenByNine3000.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            display: flex; /* Ensure content is centered */
+            align-items: center;
+            justify-content: center;
+        }
+
+        main#index-main::before { /* Overlay for readability */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Darker overlay */
+            z-index: 1;
+        }
+
+        #welcome-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95); /* Slightly transparent white background for the form area */
+            padding: 50px 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+            width: 100%;
+            max-width: 480px;
+            z-index: 2; /* Bring content above overlay */
+            border: 2px solid #e3c457; /* Gold border */
+        }
+        #welcome-section h2 {
+            color: #920000;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+        }
+        #welcome-section p {
+            color: #5d3e00;
+            font-size: 1.25em;
+            margin-bottom: 40px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .user-form {
+            width: 100%;
+            text-align: left;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #920000;
+            outline: none;
+            box-shadow: 0 0 8px rgba(146, 0, 0, 0.3);
+        }
+        .btn-submit {
+            background-color: #920000;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn-submit:hover {
+            background-color: #6a0000;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FAST EATS — Authentic Pakistani Cuisine</h1>
+    </header>
+
+    <main id="index-main">
+        
+        <section id="welcome-section">
+            <h2>Taste of Pakistan!</h2>
+            <p>Enter your details to start your flavorful journey.</p>
+
+            <form class="user-form">
+                <div class="form-group">
+                    <label for="username">Your Name:</label>
+                    <input type="text" id="username" name="username" placeholder="e.g., Ali Khan" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Delivery Location:</label>
+                    <select id="location" name="location" required>
+                        <option value="">Select City</option>
+                        <option value="Karachi">Karachi</option>
+                        <option value="Lahore">Lahore</option>
+                        <option value="Islamabad">Islamabad</option>
+                        <option value="Rawalpindi">Rawalpindi</option>
+                        <option value="Faisalabad">Faisalabad</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">View The Full Menu 🌶️</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 FAST EATS - Fresh Flavors, Delivered Fast. | Contact: info@fasteats.pk</p>
+    </footer>
+
+    <script>
+        // Wait until DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.user-form');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const username = document.getElementById('username').value.trim();
+                const location = document.getElementById('location').value;
+
+                // Simple validation
+                if (!username) {
+                    alert('Please enter your name.');
+                    return;
+                }
+                if (!location) {
+                    alert('Please select a delivery location.');
+                    return;
+                }
+
+                // Store values in localStorage
+                localStorage.setItem('username', username);
+                localStorage.setItem('location', location);
+
+                // Optional: friendly alert
+                alert(`Welcome, ${username}! Redirecting you to the menu in ${location}...`);
+
+                // Redirect to menu.html
+                window.location.href = 'menu.html';
+            });
+        });
+    </script>
+
+</body>
+</html>

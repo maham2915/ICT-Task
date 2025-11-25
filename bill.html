@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAST EATS - Checkout</title>
+    <style>
+        /* ------------------------------------- */
+        /* BASE & SHARED STYLES (VIBRANT) */
+        /* ------------------------------------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f0f0f0; 
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #920000; 
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            color: #ffefad;
+            font-size: 2em;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        main {
+            flex-grow: 1;
+            padding: 50px 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        footer {
+            background-color: #333;
+            color: #ccc;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+        }
+        a {
+            color: #e3c457;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: white;
+        }
+        .main-heading {
+            color: #920000;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.8em;
+            text-transform: uppercase;
+            border-bottom: 3px solid #e3c457;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* ------------------------------------- */
+        /* CHECKOUT.HTML Specific Styles */
+        /* ------------------------------------- */
+        #summary-container {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .order-details, .customer-info {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+        }
+
+        .order-details {
+            flex-grow: 2;
+            max-width: 700px;
+        }
+        
+        .customer-info {
+            flex-grow: 1;
+            max-width: 400px;
+            border-left: 5px solid #e3c457;
+        }
+
+        .customer-info h3 {
+            color: #5d3e00;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .customer-info p strong {
+            display: block;
+            color: #920000;
+            font-size: 1.1em;
+        }
+        .customer-info p {
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        .summary-table th, .summary-table td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .summary-table thead th {
+            background-color: #920000;
+            color: white;
+            border-bottom: 3px solid #6a0000;
+        }
+        .summary-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .summary-table .price {
+            text-align: right;
+            font-weight: 600;
+        }
+        .summary-table tfoot td {
+            font-size: 1.25em;
+            font-weight: bold;
+            background-color: #ffefad;
+            color: #333;
+            border-top: 4px solid #920000;
+        }
+        .btn-confirm {
+            background-color: #24a800;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.3em;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(36, 168, 0, 0.4);
+        }
+        .btn-confirm:hover {
+            background-color: #1e8700;
+            transform: translateY(-2px);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 50px;
+            color: #920000;
+        }
+
+        .empty-cart h3 {
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .empty-cart a {
+            display: inline-block;
+            background-color: #920000;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Desktop Layout (Two Columns) */
+        @media (min-width: 900px) {
+            #summary-container {
+                flex-wrap: nowrap;
+                align-items: flex-start;
+            }
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .remove-btn {
+            background-color: #920000;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .remove-btn:hover {
+            background-color: #6a0000;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FAST EATS — Order Checkout</h1>
+    </header>
+
+    <main>
+        <h2 class="main-heading">Confirm Your Order Details</h2>
+        <section id="summary-container">
+            <div class="order-details">
+                <h3>Order Items Summary</h3>
+                <div id="cart-content"></div>
+            </div>
+
+            <div class="customer-info">
+                <h3>Delivery Information</h3>
+                <p><strong>Customer:</strong> Ali Khan</p>
+                <p><strong>City:</strong> Lahore</p>
+                <p><strong>Delivery Address:</strong> 12-B Model Town, Near Liberty Chowk</p>
+                <p><strong>Contact Phone:</strong> +92 3XX XXX XXXX</p>
+                <p><strong>Estimated Time:</strong> 45 - 60 Minutes</p>
+                <p><strong>Payment Method:</strong> Cash on Delivery (COD)</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="menu.html">← Edit Order</a> | &copy; 2025 FAST EATS - Fresh Flavors, Delivered Fast.</p>
+    </footer>
+
+    <script>
+        const deliveryFee = 100;
+        const taxRate = 0.05;
+
+        function loadCart() {
+            const cartData = localStorage.getItem("fastEatsCart");
+            const cart = cartData ? JSON.parse(cartData) : [];
+            
+            const cartContentDiv = document.getElementById('cart-content');
+            
+            if (cart.length === 0) {
+                cartContentDiv.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>Your cart is empty!</h3>
+                        <p>Add some delicious items from our menu.</p>
+                        <a href="menu.html">Go to Menu</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group items by name and count quantities
+            const groupedCart = {};
+            cart.forEach(item => {
+                if (groupedCart[item.name]) {
+                    groupedCart[item.name].quantity++;
+                } else {
+                    groupedCart[item.name] = {
+                        price: item.price,
+                        quantity: 1
+                    };
+                }
+            });
+
+            // Create table
+            let tableHTML = `
+                <table class="summary-table" id="order-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Unit Price (Rs.)</th>
+                            <th>Total (Rs.)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            Object.keys(groupedCart).forEach(itemName => {
+                const item = groupedCart[itemName];
+                const total = item.price * item.quantity;
+                tableHTML += `
+                    <tr data-item-name="${itemName}">
+                        <td>${itemName}</td>
+                        <td><input type="number" min="0" value="${item.quantity}" class="qty" data-price="${item.price}"></td>
+                        <td class="unit-price">${item.price}</td>
+                        <td class="price">${total}</td>
+                        <td><button class="remove-btn" onclick="removeItem('${itemName}')">Remove</button></td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                    </tbody>
+                    <tfoot>
+                        <tr><td colspan="3">Subtotal</td><td class="price" id="subtotal">0</td><td></td></tr>
+                        <tr><td colspan="3">Delivery Fee</td><td class="price" id="delivery">${deliveryFee}</td><td></td></tr>
+                        <tr><td colspan="3">Sales Tax (5%)</td><td class="price" id="tax">0</td><td></td></tr>
+                        <tr><td colspan="3">Grand Total</td><td class="price" id="grand-total">0</td><td></td></tr>
+                    </tfoot>
+                </table>
+                <button class="btn-confirm" id="place-order-btn">Place Final Order</button>
+            `;
+
+            cartContentDiv.innerHTML = tableHTML;
+
+            // Add event listeners
+            const qtyInputs = document.querySelectorAll('.qty');
+            qtyInputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    if (input.value < 0) input.value = 0;
+                    updateTotals();
+                    updateLocalStorage();
+                });
+            });
+
+            document.getElementById('place-order-btn').addEventListener('click', placeOrder);
+
+            // Initial totals update
+            updateTotals();
+        }
+
+        function updateTotals() {
+            let subtotal = 0;
+            const orderTable = document.getElementById('order-table');
+            
+            if (!orderTable) return;
+
+            orderTable.querySelectorAll('tbody tr').forEach(row => {
+                const qty = parseInt(row.querySelector('.qty').value);
+                const unitPrice = parseFloat(row.querySelector('.unit-price').textContent);
+                const totalCell = row.querySelector('.price');
+                const total = qty * unitPrice;
+                totalCell.textContent = total;
+                subtotal += total;
+            });
+
+            document.getElementById('subtotal').textContent = subtotal;
+            const tax = Math.round(subtotal * taxRate);
+            document.getElementById('tax').textContent = tax;
+            const grandTotal = subtotal + tax + deliveryFee;
+            document.getElementById('grand-total').textContent = grandTotal;
+
+            // Update button text
+            document.getElementById('place-order-btn').textContent = `Place Final Order (Rs. ${grandTotal})`;
+        }
+
+        function updateLocalStorage() {
+            const orderTable = document.getElementById('order-table');
+            if (!orderTable) return;
+
+            const newCart = [];
+            orderTable.querySelectorAll('tbody tr').forEach(row => {
+                const qty = parseInt(row.querySelector('.qty').value);
+                const itemName = row.dataset.itemName;
+                const price = parseFloat(row.querySelector('.unit-price').textContent);
+                
+                for (let i = 0; i < qty; i++) {
+                    newCart.push({ name: itemName, price: price });
+                }
+            });
+
+            localStorage.setItem("fastEatsCart", JSON.stringify(newCart));
+        }
+
+        function removeItem(itemName) {
+            const row = document.querySelector(`tr[data-item-name="${itemName}"]`);
+            if (row) {
+                row.remove();
+                updateTotals();
+                updateLocalStorage();
+                
+                // If cart is empty, reload page
+                const remainingRows = document.querySelectorAll('#order-table tbody tr');
+                if (remainingRows.length === 0) {
+                    localStorage.removeItem("fastEatsCart");
+                    loadCart();
+                }
+            }
+        }
+
+        function placeOrder() {
+            const grandTotal = document.getElementById('grand-total').textContent;
+            alert(`Thank you for your order!\nYour final total is Rs. ${grandTotal}.\nIt will be delivered to your address soon.`);
+            
+            // Clear cart after order
+            localStorage.removeItem("fastEatsCart");
+            window.location.href = "menu.html";
+        }
+
+        // Load cart on page load
+        loadCart();
+    </script>
+
+</body>
+</html>
